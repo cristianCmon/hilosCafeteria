@@ -38,19 +38,7 @@ public class Main {
         cm1.start();
         cm2.start();
 
-
-
-//        cm1.prepararCafe(cl1);
-//        cm1.prepararCafe(cl1);
-
         irCafeteria();
-        // TODO SINCRONIZAR CORRECTAMENTE JOINS CAMARERO
-        try {
-            cm1.join();
-            cm2.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public static void irCafeteria() {
@@ -59,6 +47,7 @@ public class Main {
             c.start();
         }
     }
+
 }
 
 /*

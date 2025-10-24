@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Camarero extends Thread {
 
-    private static List<Cliente> clientesCafeteria = new ArrayList<>();
+    public static List<Cliente> clientesCafeteria = new ArrayList<>();
 
 
     public Camarero() {
@@ -18,7 +18,6 @@ public class Camarero extends Thread {
     public static void saludarCliente(Cliente cliente, String mensaje) {
         System.out.println(mensaje + " // El camarero le saluda");
         clientesCafeteria.add(cliente);
-        prepararCafe(cliente);
     }
 
     public static void prepararCafe(Cliente cliente) {
@@ -47,10 +46,18 @@ public class Camarero extends Thread {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-
         } while (clientesCafeteria.isEmpty());
 
-        prepararCafe(clientesCafeteria.getFirst());
+        System.out.println("alguien entra... hay que atenderlo");
+
+        // TODO NUNCA TERMINA, METER EN BUCLE
+        try {
+            prepararCafe(clientesCafeteria.getFirst());
+            this.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
 //        try {
 //            join();
 //        } catch (InterruptedException e) {

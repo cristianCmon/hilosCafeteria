@@ -56,6 +56,8 @@ public class Cliente extends Thread {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        Camarero.clientesCafeteria.remove(this);
     }
 
     //long tiempoInicioEjecucion = System.currentTimeMillis();
