@@ -33,7 +33,6 @@ public class Camarero extends Thread {
 
         System.out.println("café servido a " + cliente.getNombre());
         cliente.setFueAtendido(true);
-        clientesCafeteria.remove(cliente);
 
         System.out.println(">> " + cliente.getNombre() + " toma el café");
     }
@@ -47,14 +46,14 @@ public class Camarero extends Thread {
 
         do {
             do {
-
+                System.out.println("bucle clientesCafeteria - tamañoLista:" + clientesCafeteria.size());
                 try {
                     Thread.sleep(tiempoReaccionCamarero);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             // TODO ESTA CONDICIÓN NUNCA ACABA
-            } while (clientesCafeteria.isEmpty());
+            } while (clientesCafeteria.isEmpty() && (System.currentTimeMillis() < finJornada));
 
             //System.out.println("alguien entra... hay que atenderlo");
 
@@ -68,7 +67,7 @@ public class Camarero extends Thread {
 //            } catch (InterruptedException e) {
 //                throw new RuntimeException(e);
 //            }
-            System.out.println("Thread ended:::"+Thread.currentThread().getName());
+            //System.out.println("Thread ended:::"+Thread.currentThread().getName());
 
         } while(System.currentTimeMillis() < finJornada);
 
