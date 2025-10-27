@@ -47,6 +47,8 @@ public class Cliente extends Thread {
             Camarero.saludarCliente(this, mensaje);
             this.join(getTiempoEspera());
 
+            Camarero.clientesCafeteria.remove(this);
+
             if (this.fueAtendido) {
                 System.out.println(this.getNombre() + " se marcha. SÍ le atendieron (" + (this.getTiempoEspera() / 1000) + "s dentro)");
             } else {
@@ -56,8 +58,6 @@ public class Cliente extends Thread {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-        Camarero.clientesCafeteria.remove(this);
     }
 
     //long tiempoInicioEjecucion = System.currentTimeMillis();

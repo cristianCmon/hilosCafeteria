@@ -16,12 +16,12 @@ public class Main {
         System.out.println("\n -- CAFETERÍA ABIERTA -- \n");
 
         Cliente cl1 = new Cliente("Eva", 30);
-        Cliente cl2 = new Cliente("Santiago", 40);
+        Cliente cl2 = new Cliente("Santiago", 29);
         Cliente cl3 = new Cliente("Jose María", 35);
-        Cliente cl4 = new Cliente("Amanda", 50);
-        Cliente cl5 = new Cliente("Diego", 45);
-        Cliente cl6 = new Cliente("Silvia", 60);
-        Cliente cl7 = new Cliente("Ana", 55);
+        Cliente cl4 = new Cliente("Amanda", 28);
+        Cliente cl5 = new Cliente("Diego", 34);
+        Cliente cl6 = new Cliente("Silvia", 26);
+        Cliente cl7 = new Cliente("Ana", 27);
         Cliente cl8 = new Cliente("Adán", 25);
 
         clientes.add(cl1);

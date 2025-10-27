@@ -4,7 +4,7 @@ import java.util.List;
 public class Camarero extends Thread {
 
     public static List<Cliente> clientesCafeteria = new ArrayList<>();
-
+    //public static boolean
 
     public Camarero() {
 //        try {
@@ -20,12 +20,12 @@ public class Camarero extends Thread {
         clientesCafeteria.add(cliente);
     }
 
-    public static void prepararCafe(Cliente cliente) {
+    public void prepararCafe(Cliente cliente) {
         long tiempoPreparacionCafe = (long)(Math.random() * 5000) + 10000; // de 10 a 15 segundos
 
         try {
             System.out.println("atendiendo...");
-            Thread.sleep(tiempoPreparacionCafe);
+            join(tiempoPreparacionCafe);
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -40,23 +40,39 @@ public class Camarero extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Thread started:::"+Thread.currentThread().getName());
+        long comienzoJornada = System.currentTimeMillis();
+        long finJornada = comienzoJornada + 60000;
+        long tiempoReaccionCamarero = (long)(Math.random() * 500) + 1000; // de 1 a 1,5 segundos
+
         do {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        } while (clientesCafeteria.isEmpty());
+            do {
 
-        System.out.println("alguien entra... hay que atenderlo");
+                try {
+                    Thread.sleep(tiempoReaccionCamarero);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            // TODO ESTA CONDICIÓN NUNCA ACABA
+            } while (clientesCafeteria.isEmpty());
 
-        // TODO NUNCA TERMINA, METER EN BUCLE
-        try {
-            prepararCafe(clientesCafeteria.getFirst());
-            this.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+            //System.out.println("alguien entra... hay que atenderlo");
+
+            // TODO NUNCA TERMINA, METER EN BUCLE
+//            try {
+                Cliente cliente = clientesCafeteria.getFirst();
+                clientesCafeteria.remove(cliente);
+                prepararCafe(cliente);
+//                this.join();
+//
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+            System.out.println("Thread ended:::"+Thread.currentThread().getName());
+
+        } while(System.currentTimeMillis() < finJornada);
+
+        System.out.println("bucle terminado");
 
 //        try {
 //            join();
