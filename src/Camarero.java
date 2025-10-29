@@ -4,19 +4,13 @@ import java.util.List;
 public class Camarero extends Thread {
 
     public static List<Cliente> clientesCafeteria = new ArrayList<>();
-    //public static boolean
+    public static List<Cliente> clientesAtendidos = new ArrayList<>();
 
-    public Camarero() {
-//        try {
-//            join();
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-    }
+    public Camarero() {}
 
 
     public static void saludarCliente(Cliente cliente, String mensaje) {
-        System.out.println(mensaje + " // El camarero le saluda");
+        System.out.println(mensaje);
         clientesCafeteria.add(cliente);
     }
 
@@ -24,74 +18,40 @@ public class Camarero extends Thread {
         long tiempoPreparacionCafe = (long)(Math.random() * 5000) + 10000; // de 10 a 15 segundos
 
         try {
-            System.out.println("atendiendo...");
+            System.out.println(cliente.getNombre() + " << Camarero PREPARA café...");
             join(tiempoPreparacionCafe);
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        System.out.println("café servido a " + cliente.getNombre());
-        cliente.setFueAtendido(true);
-
-        System.out.println(">> " + cliente.getNombre() + " toma el café");
+        if (clientesAtendidos.contains(cliente)) {
+            System.out.println(cliente.getNombre() + " << Camarero SIRVE café... " + (tiempoPreparacionCafe / 1000) + "s");
+            cliente.setFueAtendido(true);
+        } else {
+            System.out.println("Camarero DESECHA café de " + cliente.getNombre() + "... " + (tiempoPreparacionCafe / 1000) + "s");
+        }
     }
 
     @Override
     public void run() {
-        System.out.println("Thread started:::"+Thread.currentThread().getName());
-        long comienzoJornada = System.currentTimeMillis();
-        long finJornada = comienzoJornada + 60000;
         long tiempoReaccionCamarero = (long)(Math.random() * 500) + 1000; // de 1 a 1,5 segundos
 
-        do {
-            do {
-                System.out.println("bucle clientesCafeteria - tamañoLista:" + clientesCafeteria.size());
+        do { // Este bucle determina la jornada laboral de los camareros, TERMINA CUANDO NO HAY CLIENTES
+            do { // Este bucle activa la BÚSQUEDA DE CLIENTES de los camareros
                 try {
                     Thread.sleep(tiempoReaccionCamarero);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-            // TODO ESTA CONDICIÓN NUNCA ACABA
-            } while (clientesCafeteria.isEmpty() && (System.currentTimeMillis() < finJornada));
+            } while (clientesCafeteria.isEmpty());
 
-            //System.out.println("alguien entra... hay que atenderlo");
+            Cliente cliente = clientesCafeteria.getFirst();
+            clientesCafeteria.remove(cliente);
+            clientesAtendidos.add(cliente);
+            prepararCafe(cliente);
 
-            // TODO NUNCA TERMINA, METER EN BUCLE
-//            try {
-                Cliente cliente = clientesCafeteria.getFirst();
-                clientesCafeteria.remove(cliente);
-                prepararCafe(cliente);
-//                this.join();
-//
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-            //System.out.println("Thread ended:::"+Thread.currentThread().getName());
-
-        } while(System.currentTimeMillis() < finJornada);
-
-        System.out.println("bucle terminado");
-
-//        try {
-//            join();
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-
-        //try {
-            //System.out.println("atendiendo...");
-            //Thread.sleep();
-//            if (!clientesCafeteria.isEmpty() && clientesCafeteria != null) {
-//                prepararCafe(clientesCafeteria.getFirst());
-//                System.out.println("hola");
-//            }
-//                System.out.println("hola");
-//                prepararCafe(clientesCafeteria.getFirst());
-//        }
-//        catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-
+        } while (!clientesCafeteria.isEmpty());
     }
+
 }

@@ -38,8 +38,7 @@ public class Cliente extends Thread {
 
     @Override
     public void run() {
-        long tiempoIda = (int)(Math.random() * 10000) + 10000; // de 10 a 20 segundos
-        //long tiempoInicioCaminata = System.currentTimeMillis();
+        long tiempoIda = (int)(Math.random() * 10000) + 5000; // de 10 a 15 segundos
 
         try {
             Thread.sleep(tiempoIda);
@@ -47,12 +46,11 @@ public class Cliente extends Thread {
             Camarero.saludarCliente(this, mensaje);
             this.join(getTiempoEspera());
 
-            //Camarero.clientesCafeteria.remove(this);
-
             if (this.fueAtendido) {
                 System.out.println(this.getNombre() + " se marcha. SÍ le atendieron (" + (this.getTiempoEspera() / 1000) + "s dentro)");
             } else {
                 Camarero.clientesCafeteria.remove(this);
+                Camarero.clientesAtendidos.remove(this);
                 System.out.println(this.getNombre() + " se marcha. NO le atendieron (" + (this.getTiempoEspera() / 1000) + "s dentro)");
             }
 
@@ -61,6 +59,4 @@ public class Cliente extends Thread {
         }
     }
 
-    //long tiempoInicioEjecucion = System.currentTimeMillis();
-    //tiempoEjecucion = System.currentTimeMillis() - tiempoInicioEjecucion;
 }
