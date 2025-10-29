@@ -1,0 +1,27 @@
+
+.label {
+    -fx-border-color: brown ;
+    -fx-border-width: 2;
+}
+
+#lbTitulo {
+    -fx-border-width: 0;
+    -fx-border-style: none;
+}
+
+#lbFin {
+    -fx-border-width: 0;
+    -fx-border-style: none;
+}
+
+#lbCamarero1 {
+    -fx-border-color: RoyalBlue ;
+    -fx-border-width: 2;
+    /*-fx-border-style: dotted;*/
+}
+
+#lbCamarero2 {
+    -fx-border-color: RoyalBlue ;
+    -fx-border-width: 2;
+    /*-fx-border-style: dotted;*/
+}
