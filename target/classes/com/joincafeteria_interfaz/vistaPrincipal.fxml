@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -31,8 +33,11 @@
             <Font name="System Italic" size="21.0" />
          </font>
       </Label>
-      <GridPane fx:id="gpClientes" layoutX="108.0" layoutY="108.0" prefHeight="296.0" prefWidth="228.0">
+      <GridPane fx:id="gpClientes" layoutX="65.0" layoutY="108.0" prefHeight="263.0" prefWidth="294.0">
         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -43,35 +48,95 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="lbCliente0" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="90.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Label fx:id="lbCliente02" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.halignment="CENTER">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente03" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente01" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente0" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
                   <Font size="13.0" />
                </font></Label>
-            <Label fx:id="lbCliente1" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="90.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Label fx:id="lbCliente2" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
                   <Font size="13.0" />
                </font></Label>
-            <Label fx:id="lbCliente2" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="90.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Label fx:id="lbCliente11" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente111" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente112" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente1" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
                   <Font size="13.0" />
                </font></Label>
-            <Label fx:id="lbCliente3" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="90.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Label fx:id="lbCliente3" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
                   <Font size="13.0" />
                </font></Label>
-            <Label fx:id="lbCliente4" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="90.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Label fx:id="lbCliente1121" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente1122" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente1123" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente4" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <font>
                   <Font size="13.0" />
                </font></Label>
-            <Label fx:id="lbCliente5" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="90.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Label fx:id="lbCliente5" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <font>
                   <Font size="13.0" />
                </font></Label>
-            <Label fx:id="lbCliente6" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="90.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <Label fx:id="lbCliente1124" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente1125" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente1126" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCliente6" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <font>
                   <Font size="13.0" />
                </font></Label>
-            <Label fx:id="lbCliente7" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="90.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <Label fx:id="lbCliente7" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <font>
                   <Font size="13.0" />
                </font></Label>
@@ -82,5 +147,21 @@
             <Font name="System Bold Italic" size="32.0" />
          </font>
       </Label>
+      <Button fx:id="btnPasarCliente" layoutX="111.0" layoutY="430.0" mnemonicParsing="false" onAction="#clicPasarCliente" prefHeight="31.0" prefWidth="90.0" text="Dar Paso">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnFinalizarEjecucion" layoutX="243.0" layoutY="430.0" mnemonicParsing="false" onAction="#clicFinalizarEjecucion" prefHeight="31.0" prefWidth="90.0" text="Finalizar">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

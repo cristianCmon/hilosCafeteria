@@ -1,10 +1,13 @@
 package com.joincafeteria_interfaz;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -21,9 +24,12 @@ public class PrincipalController {
     private GridPane gpClientes;
 
     @FXML
+    private Button btnPasarCliente, btnFinalizarEjecucion;
+
+    @FXML
     private Label lbCamarero1, lbCamarero2, lbFin;
 
-    private List<Cliente> clientes = new ArrayList<>();
+    private int indiceCliente = 0, indiceRejilla = 0;
 
     @FXML
     private void initialize() {
@@ -35,48 +41,38 @@ public class PrincipalController {
     public void abrirCafeteria() {
         System.out.println("\n -- CAFETERÍA ABIERTA -- \n");
 
-        Cliente cl1 = new Cliente("Eva", 30);
-        Cliente cl2 = new Cliente("Santiago", 29);
-        Cliente cl3 = new Cliente("Jose María", 35);
-        Cliente cl4 = new Cliente("Amanda", 28);
-        Cliente cl5 = new Cliente("Diego", 34);
-        Cliente cl6 = new Cliente("Silvia", 26);
-        Cliente cl7 = new Cliente("Ana", 27);
-        Cliente cl8 = new Cliente("Adán", 25);
-
-        clientes.add(cl1);
-        clientes.add(cl2);
-        clientes.add(cl3);
-        clientes.add(cl4);
-        clientes.add(cl5);
-        clientes.add(cl6);
-        clientes.add(cl7);
-        clientes.add(cl8);
-
         Camarero cm1 = new Camarero("Roberto");
         Camarero cm2 = new Camarero("Teresa");
+
         cm1.start();
         cm2.start();
-
-        irCafeteria();
     }
 
-    public void irCafeteria() {
-        for (Cliente c : clientes) {
-            System.out.println(c.getNombre() + " >> ...");
-            c.start();
+    public void clicPasarCliente(ActionEvent actionEvent) {
+        Cliente cliente = new Cliente("C" + indiceCliente, 20);
+        System.out.println("PASA " + cliente.getNombre());
+        cliente.start();
+
+        // Si se alcanza el límite máximo de la rejilla se empieza desde el principio
+        if (indiceRejilla >= gpClientes.getChildren().size()) {
+            indiceRejilla = 0;
         }
 
-        int indiceRejilla = 0;
-
-        for (Node node : gpClientes.getChildren()) {
-            if (node instanceof Label) {
-                Label etiquetaActual = (Label) node;
-                etiquetaActual.setText(clientes.get(indiceRejilla).getNombre());
-                indiceRejilla++;
-            }
+        Node node = gpClientes.getChildren().get(indiceRejilla);
+        if (node instanceof Label) {
+            Label etiquetaActual = (Label) node;
+            etiquetaActual.setText(cliente.getNombre());
+            cambiarColor(cliente, "amarillo");
         }
 
+        indiceCliente++;
+        indiceRejilla++;
+    }
+
+    public void clicFinalizarEjecucion(ActionEvent actionEvent) {
+        System.out.println("CLICK FINALIZAR");
+        Platform.exit();
+        System.exit(0);
     }
 
     public void cambiarColor(Cliente cliente, String color) {
@@ -150,6 +146,7 @@ public class PrincipalController {
         }
     }
 
+
     class Camarero extends Thread {
 
         public static List<Cliente> clientesCafeteria = new ArrayList<>();
@@ -165,13 +162,12 @@ public class PrincipalController {
             return nombre;
         }
 
-        public static void saludarCliente(Cliente cliente, String mensaje) {
-            System.out.println(mensaje);
+        public static void saludarCliente(Cliente cliente) {
             clientesCafeteria.add(cliente);
         }
 
         public void prepararCafe(Cliente cliente) {
-            long tiempoPreparacionCafe = (long)(Math.random() * 5000) + 10000; // de 10 a 15 segundos
+            long tiempoPreparacionCafe = (long)(Math.random() * 4000) + 4000; // de 4 a 8 segundos
 
             cambiarColor(this, "azulPuntos");
             cambiarColor(cliente, "azulPuntos");
@@ -214,14 +210,15 @@ public class PrincipalController {
                 clientesAtendidos.add(cliente);
                 prepararCafe(cliente);
 
-            } while (!clientesCafeteria.isEmpty());
-
+            } while (true); // termina cuando cerremos programa o pulsemos botón finalizar
+/*
             hiloTerminado++;
 
             if (hiloTerminado == 2) {
                 System.out.println("FIN");
                 lbFin.setVisible(true);
             }
+            */
         }
 
     }
@@ -266,13 +263,9 @@ public class PrincipalController {
 
         @Override
         public void run() {
-            long tiempoIda = (int)(Math.random() * 10000) + 5000; // de 10 a 15 segundos
 
             try {
-                Thread.sleep(tiempoIda);
-                String mensaje = this.getNombre() + " >> Cafetería (" + (tiempoIda / 1000) + "s caminata)";
-                cambiarColor(this, "amarillo");
-                Camarero.saludarCliente(this, mensaje);
+                Camarero.saludarCliente(this);
                 this.join(getTiempoEspera());
 
                 if (this.fueAtendido) {

@@ -1,9 +1,9 @@
-
+/*
 .label {
-    -fx-border-color: brown ;
+    -fx-border-color: gold;
     -fx-border-width: 2;
 }
-
+*/
 #lbTitulo {
     -fx-border-width: 0;
     -fx-border-style: none;

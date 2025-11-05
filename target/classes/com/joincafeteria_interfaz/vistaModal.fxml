@@ -17,9 +17,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label layoutX="48.0" layoutY="105.0" prefHeight="27.0" prefWidth="50.0" style="-fx-text-fill: brown;" text="Marrón" />
       <Label layoutX="48.0" layoutY="132.0" prefHeight="27.0" prefWidth="50.0" style="-fx-text-fill: gold;" text="Dorado" />
-      <Label layoutX="112.0" layoutY="110.0" prefHeight="17.0" prefWidth="138.0" text="Llegando a cafetería" />
       <Label layoutX="112.0" layoutY="137.0" prefHeight="17.0" prefWidth="138.0" text="Esperando a ser atendido" />
       <Label layoutX="48.0" layoutY="159.0" prefHeight="27.0" prefWidth="50.0" style="-fx-text-fill: blue;" text="Azul pun." />
       <Label layoutX="112.0" layoutY="164.0" prefHeight="17.0" prefWidth="138.0" text="Atendido por camarero" />
@@ -42,7 +40,7 @@
       <Label layoutX="351.0" layoutY="154.0" prefHeight="27.0" prefWidth="64.0" style="-fx-text-fill: blue;" text="Azul pun." />
       <Label layoutX="431.0" layoutY="132.0" prefHeight="17.0" prefWidth="138.0" text="Buscando clientes" />
       <Label layoutX="431.0" layoutY="159.0" prefHeight="17.0" prefWidth="138.0" text="Preparando café..." />
-      <Label layoutX="60.0" layoutY="339.0" prefHeight="17.0" prefWidth="483.0" text="La aplicación termina cuando no hay clientes y los camareros terminan de usar la cafetera.">
+      <Label alignment="CENTER" layoutX="60.0" layoutY="339.0" prefHeight="17.0" prefWidth="483.0" text="La aplicación termina cuando se pulse el botón Finalizar.">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
