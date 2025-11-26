@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="490.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.joincafeteria_interfaz.ModalController">
+<AnchorPane prefHeight="490.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.joincafeteria_interfaz.ModalController">
    <children>
-      <Button fx:id="btnIniciar" layoutX="248.0" layoutY="410.0" mnemonicParsing="false" onAction="#clicIniciar" prefHeight="43.0" prefWidth="101.0" text="INICIAR">
+      <Button fx:id="btnIniciar" layoutX="350.0" layoutY="409.0" mnemonicParsing="false" onAction="#clicIniciar" prefHeight="43.0" prefWidth="101.0" text="INICIAR">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -18,7 +18,7 @@
          </cursor>
       </Button>
       <Label layoutX="48.0" layoutY="132.0" prefHeight="27.0" prefWidth="50.0" style="-fx-text-fill: gold;" text="Dorado" />
-      <Label layoutX="112.0" layoutY="137.0" prefHeight="17.0" prefWidth="138.0" text="Esperando a ser atendido" />
+      <Label layoutX="112.0" layoutY="137.0" prefHeight="17.0" prefWidth="158.0" text="Esperando a ser atendido" />
       <Label layoutX="48.0" layoutY="159.0" prefHeight="27.0" prefWidth="50.0" style="-fx-text-fill: blue;" text="Azul pun." />
       <Label layoutX="112.0" layoutY="164.0" prefHeight="17.0" prefWidth="138.0" text="Atendido por camarero" />
       <Separator layoutX="298.0" layoutY="43.0" orientation="VERTICAL" prefHeight="250.0" prefWidth="0.0" />
@@ -31,18 +31,24 @@
             <Font name="System Italic" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="406.0" layoutY="38.0" text="CAMAREROS" underline="true">
+      <Label layoutX="381.0" layoutY="38.0" text="CAMAREROS" underline="true">
          <font>
             <Font name="System Italic" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="351.0" layoutY="127.0" prefHeight="27.0" prefWidth="50.0" style="-fx-text-fill: blue;" text="Azul" />
-      <Label layoutX="351.0" layoutY="154.0" prefHeight="27.0" prefWidth="64.0" style="-fx-text-fill: blue;" text="Azul pun." />
-      <Label layoutX="431.0" layoutY="132.0" prefHeight="17.0" prefWidth="138.0" text="Buscando clientes" />
-      <Label layoutX="431.0" layoutY="159.0" prefHeight="17.0" prefWidth="138.0" text="Preparando café..." />
-      <Label alignment="CENTER" layoutX="60.0" layoutY="339.0" prefHeight="17.0" prefWidth="483.0" text="La aplicación termina cuando se pulse el botón Finalizar.">
+      <Label layoutX="334.0" layoutY="127.0" prefHeight="27.0" prefWidth="50.0" style="-fx-text-fill: blue;" text="Azul" />
+      <Label layoutX="334.0" layoutY="154.0" prefHeight="27.0" prefWidth="64.0" style="-fx-text-fill: blue;" text="Azul pun." />
+      <Label layoutX="414.0" layoutY="132.0" prefHeight="17.0" prefWidth="138.0" text="Buscando clientes" />
+      <Label layoutX="414.0" layoutY="159.0" prefHeight="17.0" prefWidth="138.0" text="Preparando café..." />
+      <Label alignment="CENTER" layoutX="159.0" layoutY="344.0" prefHeight="17.0" prefWidth="483.0" text="La aplicación termina cuando se pulse el botón Finalizar.">
          <font>
-            <Font name="System Italic" size="12.0" />
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <Separator layoutX="565.0" layoutY="43.0" orientation="VERTICAL" prefHeight="250.0" prefWidth="0.0" />
+      <Label layoutX="642.0" layoutY="38.0" text="BARISTA" underline="true">
+         <font>
+            <Font name="System Italic" size="18.0" />
          </font>
       </Label>
    </children>

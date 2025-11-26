@@ -133,7 +133,7 @@ public class PrincipalController {
             Scene scene = new Scene(root);
             Stage stage = new Stage();
 
-            stage.setTitle("INFORMACIÓN");
+            stage.setTitle("INFORMACIÓN FUNCIONAMIENTO");
 
             stage.setScene(scene);
             stage.setResizable(false);
