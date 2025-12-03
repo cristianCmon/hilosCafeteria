@@ -14,30 +14,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import jdk.jfr.Frequency;
-import jdk.swing.interop.SwingInterOpUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class PrincipalController {
     @FXML
-    private GridPane gpClientes, gpCafetera;
-
-    @FXML
-    private Button btnPasarCliente, btnFinalizarEjecucion;
-
+    private GridPane gpClientes;
     @FXML
     private Image cafe;
     @FXML
     private ImageView img0, img1, img2, img3;
-    List<ImageView> imagenes = new ArrayList<>();
-
     @FXML
     private Label lbCamarero1, lbCamarero2, lbBarista, lbFin;
 
+    private List<ImageView> imagenes = new ArrayList<>();
     private int indiceCliente = 0, indiceRejilla = 0;
 
     @FXML
@@ -52,16 +44,6 @@ public class PrincipalController {
             img.setImage(cafe);
             img.setVisible(false);
         }
-
-//        imagenes.get(2).setVisible(false);
-//        imagenes.get(1).setVisible(false);
-
-//        img0.setImage(cafe);
-//        img1.setImage(cafe);
-//        img2.setImage(cafe);
-//        img3.setImage(cafe);
-//        img3.setVisible(false);
-//        img0 = new ImageView(getClass().getResourceAsStream("/imagenes/coffee50x50.png").toString());
 
         mostrarModal();
         lbFin.setVisible(false);
@@ -147,9 +129,6 @@ public class PrincipalController {
                 case "azulPuntos":
                     lbCamarero1.setStyle("-fx-border-color: RoyalBlue; -fx-border-width: 2; -fx-border-style: dotted;");
                     break;
-                case "naranjaPuntos":
-                    lbBarista.setStyle("-fx-border-color: #E28A78; -fx-border-width: 2; -fx-border-style: dotted;");
-                    break;
             }
         } else {
             switch (color) {
@@ -158,9 +137,6 @@ public class PrincipalController {
                     break;
                 case "azulPuntos":
                     lbCamarero2.setStyle("-fx-border-color: RoyalBlue; -fx-border-width: 2; -fx-border-style: dotted;");
-                    break;
-                case "naranjaPuntos":
-                    lbBarista.setStyle("-fx-border-color: #E28A78; -fx-border-width: 2; -fx-border-style: dotted;");
                     break;
             }
         }
@@ -194,7 +170,6 @@ public class PrincipalController {
 
         } catch (IOException e) {
             System.out.println("ERROR - " + e);
-            //e.printStackTrace();
         }
     }
 
@@ -210,7 +185,6 @@ public class PrincipalController {
 
 
         private int getPosicionCafe() {
-            // TODO OJO -1
             int posicion = -1;
 
             for (int i = 0; i < imagenes.size(); i++) {
@@ -230,23 +204,18 @@ public class PrincipalController {
 
             do {
                 cambiarColor(this, "naranjaPuntos");
-    //            cambiarColor(cliente, "azulPuntos");
 
                 try {
-                    System.out.println("Barista PREPARA café...");
+                    System.out.println("Barista interactúa con cafetera...");
                     join(tiempoPreparacionCafe);
                     posicionCafe = getPosicionCafe();
-
-//                    if (posicionCafe != -1) {
-                        cafetera.put(posicionCafe);
-//                    }
+                    cafetera.put(posicionCafe);
 
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
-                System.out.println("Barista PREPARÓ café...");
-//                cambiarColor(this, "naranja");
+                System.out.println("Café LISTO...");
             } while (true);
         }
     }
@@ -256,31 +225,25 @@ public class PrincipalController {
         int cantidad = 0;
         private boolean disponible = false;
 
-        public synchronized int get(Camarero camarero) {
+        public synchronized int get() {
             while (!disponible) {
                 try {
                     System.out.println("Camarero esperando cafetera...");
-                    cambiarColor(camarero, "naranjaPuntos");
                     wait();
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
 
             if (cantidad > 0) {
-
-            cafe = cogerPrimerCafeDisponible();
+                cafe = cogerPrimerCafeDisponible();
             }
 
             if (cafe != -1) {
-//                cambiarColor(new Camarero(), "naranja");
                 System.out.println("Sirviendo café...");
-//                imagenes.get(cafe).setVisible(false);
                 disponible = estaCafeteraLLena();
-    //            if (cafe != -1) {
-    //                imagenes.get(cafe).setVisible(false);
-    //                disponible = estaCafeteraLLena();
-    //            }
+
                 cantidad--;
                 notifyAll();
             }
@@ -294,6 +257,7 @@ public class PrincipalController {
                     System.out.println("cafetera llena, barista en espera...");
                     cambiarColor(new Barista(), "naranja");
                     wait();
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -301,10 +265,8 @@ public class PrincipalController {
             cafe = valor;
 
             if (cafe != -1) {
-                // pintar cafe en gridPane
                 cantidad++;
                 imagenes.get(cafe).setVisible(true);
-
 
                 disponible = estaCafeteraLLena();
                 notifyAll();
@@ -312,16 +274,7 @@ public class PrincipalController {
         }
 
         private boolean estaCafeteraLLena() {
-//            boolean estaLLena = true;
-
-//            for (ImageView img : imagenes) {
-//                if (!img.isVisible()) {
-//                    estaLLena = false;
-//                    break;
-//                }
-//            }
-
-            return cantidad >= 4;
+            return cantidad > 3; // posiciones cafetera 0-3
         }
 
         private int cogerPrimerCafeDisponible() {
@@ -368,36 +321,20 @@ public class PrincipalController {
 
         public void recogerCafe(Cliente cliente) {
             int posicionCafe;
-//            long tiempoPreparacionCafe = (long)(Math.random() * 4000) + 4000; // de 4 a 8 segundos
-            // TODO NARANJA MIENTRAS BUSCA CAFÉ
             cambiarColor(this, "azulPuntos");
-            posicionCafe = cafetera.get(this);
-//            imagenes.get(posicionCafe).setVisible(false);
-
+            posicionCafe = cafetera.get();
 
             cambiarColor(cliente, "azulPuntos");
-
-//            try {
-//                System.out.println(cliente.getNombre() + " << Camarero PREPARA café...");
-//                join(tiempoPreparacionCafe);
-//
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
 
             cambiarColor(this, "azul");
 
             if (clientesAtendidos.contains(cliente)) {
-//                System.out.println(cliente.getNombre() + " << Camarero SIRVE café... " + (tiempoPreparacionCafe / 1000) + "s");
                 System.out.println(cliente.getNombre() + " << Camarero SIRVE café... ");
-
                 cambiarColor(cliente, "verde");
                 cliente.setFueAtendido(true);
             } else {
                 cambiarColor(cliente, "rojo");
-//                System.out.println("Camarero DESECHA café de " + cliente.getNombre() + "... " + (tiempoPreparacionCafe / 1000) + "s");
                 System.out.println("Camarero DESECHA café de " + cliente.getNombre() + "...");
-
             }
         }
 
