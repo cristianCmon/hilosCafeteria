@@ -26,3 +26,8 @@
     -fx-border-width: 2;
     /*-fx-border-style: dotted;*/
 }
+
+#lbBarista {
+    -fx-border-color: #E28A78 ;
+    -fx-border-width: 2;
+}

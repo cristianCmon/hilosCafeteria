@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,18 +23,37 @@ import java.util.Objects;
 
 public class PrincipalController {
     @FXML
-    private GridPane gpClientes;
+    private GridPane gpClientes, gpCafetera;
 
     @FXML
     private Button btnPasarCliente, btnFinalizarEjecucion;
 
     @FXML
-    private Label lbCamarero1, lbCamarero2, lbFin;
+    private Image cafe;
+    @FXML
+    private ImageView img0, img1, img2, img3;
+    List<ImageView> imagenes = new ArrayList<>();
+
+    @FXML
+    private Label lbCamarero1, lbCamarero2, lbBarista, lbFin;
 
     private int indiceCliente = 0, indiceRejilla = 0;
 
     @FXML
     private void initialize() {
+        cafe = new Image(getClass().getResourceAsStream("/imagenes/coffee50x50.png"));
+        imagenes.add(img0);
+        imagenes.add(img1);
+        imagenes.add(img2);
+        imagenes.add(img3);
+
+        img0.setImage(cafe);
+//        img1.setImage(cafe);
+//        img2.setImage(cafe);
+//        img3.setImage(cafe);
+//        img3.setVisible(false);
+//        img0 = new ImageView(getClass().getResourceAsStream("/imagenes/coffee50x50.png").toString());
+
         mostrarModal();
         lbFin.setVisible(false);
         abrirCafeteria();
@@ -41,8 +62,13 @@ public class PrincipalController {
     public void abrirCafeteria() {
         System.out.println("\n -- CAFETERÍA ABIERTA -- \n");
 
-        Camarero cm1 = new Camarero("Roberto");
-        Camarero cm2 = new Camarero("Teresa");
+        Cafetera cafetera = new Cafetera();
+        Barista barista = new Barista(cafetera);
+
+        barista.start();
+
+        Camarero cm1 = new Camarero("Roberto", cafetera);
+        Camarero cm2 = new Camarero("Teresa", cafetera);
 
         cm1.start();
         cm2.start();
@@ -79,8 +105,8 @@ public class PrincipalController {
         for (Node node : gpClientes.getChildren()) {
             if (node instanceof Label) {
                 Label etiquetaActual = (Label) node;
-                if (etiquetaActual.getText().equals(cliente.getNombre())) {
 
+                if (etiquetaActual.getText().equals(cliente.getNombre())) {
                     switch (color) {
                         case "amarillo":
                             etiquetaActual.setStyle("-fx-border-color: gold; -fx-border-width: 2;");
@@ -146,16 +172,70 @@ public class PrincipalController {
         }
     }
 
+    class Barista extends Thread {
+        private Cafetera cafetera;
+
+        public Barista(Cafetera c) {
+            this.cafetera = c;
+        }
+
+        @Override
+        public void run() {
+
+//            cafetera.put(i);
+            System.out.println("");
+        }
+    }
+
+    class Cafetera {
+        int cafe;
+        private boolean disponible = false;
+
+        public synchronized int get() {
+            while (!disponible) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            disponible = false;
+            notifyAll();
+            return cafe;
+        }
+
+        public synchronized void put(int valor) {
+            while (disponible) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            cafe = valor;
+            // pintar cafe en gridPane
+            disponible = true;
+            notifyAll();
+        }
+    }
 
     class Camarero extends Thread {
 
         public static List<Cliente> clientesCafeteria = new ArrayList<>();
         public static List<Cliente> clientesAtendidos = new ArrayList<>();
         private String nombre;
+        private Cafetera cafetera;
         private static int hiloTerminado = 0;
 
         public Camarero(String nombre) {
             this.nombre = nombre;
+        }
+
+        public Camarero(String nombre, Cafetera cafetera) {
+            this.nombre = nombre;
+            this.cafetera = cafetera;
         }
 
         public String getNombre() {
