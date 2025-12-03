@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import jdk.jfr.Frequency;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,7 +48,15 @@ public class PrincipalController {
         imagenes.add(img2);
         imagenes.add(img3);
 
-        img0.setImage(cafe);
+        for (ImageView img : imagenes) {
+            img.setImage(cafe);
+            img.setVisible(false);
+        }
+
+//        imagenes.get(2).setVisible(false);
+//        imagenes.get(1).setVisible(false);
+
+//        img0.setImage(cafe);
 //        img1.setImage(cafe);
 //        img2.setImage(cafe);
 //        img3.setImage(cafe);
@@ -138,6 +147,9 @@ public class PrincipalController {
                 case "azulPuntos":
                     lbCamarero1.setStyle("-fx-border-color: RoyalBlue; -fx-border-width: 2; -fx-border-style: dotted;");
                     break;
+                case "naranjaPuntos":
+                    lbBarista.setStyle("-fx-border-color: #E28A78; -fx-border-width: 2; -fx-border-style: dotted;");
+                    break;
             }
         } else {
             switch (color) {
@@ -147,7 +159,21 @@ public class PrincipalController {
                 case "azulPuntos":
                     lbCamarero2.setStyle("-fx-border-color: RoyalBlue; -fx-border-width: 2; -fx-border-style: dotted;");
                     break;
+                case "naranjaPuntos":
+                    lbBarista.setStyle("-fx-border-color: #E28A78; -fx-border-width: 2; -fx-border-style: dotted;");
+                    break;
             }
+        }
+    }
+
+    public void cambiarColor(Barista barista, String color) {
+        switch (color) {
+            case "naranja":
+                lbBarista.setStyle("-fx-border-color: #E28A78; -fx-border-width: 2;");
+                break;
+            case "naranjaPuntos":
+                lbBarista.setStyle("-fx-border-color: #E28A78; -fx-border-width: 2; -fx-border-style: dotted;");
+                break;
         }
     }
 
@@ -175,49 +201,138 @@ public class PrincipalController {
     class Barista extends Thread {
         private Cafetera cafetera;
 
+
+        public Barista() {};
+
         public Barista(Cafetera c) {
             this.cafetera = c;
         }
 
+
+        private int getPosicionCafe() {
+            // TODO OJO -1
+            int posicion = -1;
+
+            for (int i = 0; i < imagenes.size(); i++) {
+                if (!imagenes.get(i).isVisible()) {
+                    posicion = i;
+                    break;
+                }
+            }
+
+            return posicion;
+        }
+
         @Override
         public void run() {
+            long tiempoPreparacionCafe = (long)(Math.random() * 3000) + 2000; // de 3 a 5 segundos
+            int posicionCafe;
 
-//            cafetera.put(i);
-            System.out.println("");
+            do {
+                cambiarColor(this, "naranjaPuntos");
+    //            cambiarColor(cliente, "azulPuntos");
+
+                try {
+                    System.out.println("Barista PREPARA café...");
+                    join(tiempoPreparacionCafe);
+                    posicionCafe = getPosicionCafe();
+
+//                    if (posicionCafe != -1) {
+                        cafetera.put(posicionCafe);
+//                    }
+
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                System.out.println("Barista PREPARÓ café...");
+//                cambiarColor(this, "naranja");
+            } while (true);
         }
     }
 
     class Cafetera {
         int cafe;
+        int cantidad = 0;
         private boolean disponible = false;
 
-        public synchronized int get() {
+        public synchronized int get(Camarero camarero) {
             while (!disponible) {
                 try {
+                    System.out.println("Camarero esperando cafetera...");
+                    cambiarColor(camarero, "naranjaPuntos");
                     wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
 
-            disponible = false;
-            notifyAll();
+            cafe = cogerPrimerCafeDisponible();
+
+            if (cafe != -1) {
+//                cambiarColor(new Camarero(), "naranja");
+                System.out.println("Sirviendo café...");
+//                imagenes.get(cafe).setVisible(false);
+                disponible = estaCafeteraLLena();
+    //            if (cafe != -1) {
+    //                imagenes.get(cafe).setVisible(false);
+    //                disponible = estaCafeteraLLena();
+    //            }
+                cantidad--;
+                notifyAll();
+            }
+
             return cafe;
         }
 
         public synchronized void put(int valor) {
             while (disponible) {
                 try {
+                    System.out.println("cafetera llena, barista en espera...");
+                    cambiarColor(new Barista(), "naranja");
                     wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-
             cafe = valor;
-            // pintar cafe en gridPane
-            disponible = true;
-            notifyAll();
+
+            if (cafe != -1) {
+                // pintar cafe en gridPane
+                imagenes.get(cafe).setVisible(true);
+
+
+                disponible = estaCafeteraLLena();
+                cantidad++;
+                notifyAll();
+            }
+        }
+
+        private boolean estaCafeteraLLena() {
+            boolean estaLLena = true;
+
+            for (ImageView img : imagenes) {
+                if (!img.isVisible()) {
+                    estaLLena = false;
+                    break;
+                }
+            }
+
+            return estaLLena;
+        }
+
+        private int cogerPrimerCafeDisponible() {
+            int cafe = -1;
+
+            for (int i = 0; i < imagenes.size(); i++) {
+                if (imagenes.get(i).isVisible()) {
+                    cafe = i;
+                    imagenes.get(i).setVisible(false);
+                    break;
+                }
+            }
+
+            return cafe;
         }
     }
 
@@ -227,7 +342,9 @@ public class PrincipalController {
         public static List<Cliente> clientesAtendidos = new ArrayList<>();
         private String nombre;
         private Cafetera cafetera;
-        private static int hiloTerminado = 0;
+
+
+        public Camarero() {};
 
         public Camarero(String nombre) {
             this.nombre = nombre;
@@ -246,29 +363,38 @@ public class PrincipalController {
             clientesCafeteria.add(cliente);
         }
 
-        public void prepararCafe(Cliente cliente) {
-            long tiempoPreparacionCafe = (long)(Math.random() * 4000) + 4000; // de 4 a 8 segundos
-
+        public void recogerCafe(Cliente cliente) {
+            int posicionCafe;
+//            long tiempoPreparacionCafe = (long)(Math.random() * 4000) + 4000; // de 4 a 8 segundos
+            // TODO NARANJA MIENTRAS BUSCA CAFÉ
             cambiarColor(this, "azulPuntos");
+            posicionCafe = cafetera.get(this);
+//            imagenes.get(posicionCafe).setVisible(false);
+
+
             cambiarColor(cliente, "azulPuntos");
 
-            try {
-                System.out.println(cliente.getNombre() + " << Camarero PREPARA café...");
-                join(tiempoPreparacionCafe);
-
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+//            try {
+//                System.out.println(cliente.getNombre() + " << Camarero PREPARA café...");
+//                join(tiempoPreparacionCafe);
+//
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
 
             cambiarColor(this, "azul");
 
             if (clientesAtendidos.contains(cliente)) {
-                System.out.println(cliente.getNombre() + " << Camarero SIRVE café... " + (tiempoPreparacionCafe / 1000) + "s");
+//                System.out.println(cliente.getNombre() + " << Camarero SIRVE café... " + (tiempoPreparacionCafe / 1000) + "s");
+                System.out.println(cliente.getNombre() + " << Camarero SIRVE café... ");
+
                 cambiarColor(cliente, "verde");
                 cliente.setFueAtendido(true);
             } else {
                 cambiarColor(cliente, "rojo");
-                System.out.println("Camarero DESECHA café de " + cliente.getNombre() + "... " + (tiempoPreparacionCafe / 1000) + "s");
+//                System.out.println("Camarero DESECHA café de " + cliente.getNombre() + "... " + (tiempoPreparacionCafe / 1000) + "s");
+                System.out.println("Camarero DESECHA café de " + cliente.getNombre() + "...");
+
             }
         }
 
@@ -288,17 +414,9 @@ public class PrincipalController {
                 Cliente cliente = clientesCafeteria.getFirst();
                 clientesCafeteria.remove(cliente);
                 clientesAtendidos.add(cliente);
-                prepararCafe(cliente);
+                recogerCafe(cliente);
 
             } while (true); // termina cuando cerremos programa o pulsemos botón finalizar
-/*
-            hiloTerminado++;
-
-            if (hiloTerminado == 2) {
-                System.out.println("FIN");
-                lbFin.setVisible(true);
-            }
-            */
         }
 
     }
