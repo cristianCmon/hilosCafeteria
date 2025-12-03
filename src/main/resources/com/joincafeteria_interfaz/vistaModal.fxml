@@ -38,8 +38,8 @@
       </Label>
       <Label layoutX="334.0" layoutY="127.0" prefHeight="27.0" prefWidth="50.0" style="-fx-text-fill: blue;" text="Azul" />
       <Label layoutX="334.0" layoutY="154.0" prefHeight="27.0" prefWidth="64.0" style="-fx-text-fill: blue;" text="Azul pun." />
-      <Label layoutX="414.0" layoutY="132.0" prefHeight="17.0" prefWidth="138.0" text="Buscando clientes" />
-      <Label layoutX="414.0" layoutY="159.0" prefHeight="17.0" prefWidth="138.0" text="Preparando café..." />
+      <Label layoutX="414.0" layoutY="132.0" prefHeight="17.0" prefWidth="138.0" text="Esperando café..." />
+      <Label layoutX="414.0" layoutY="159.0" prefHeight="17.0" prefWidth="138.0" text="Sirviendo café..." />
       <Label alignment="CENTER" layoutX="159.0" layoutY="344.0" prefHeight="17.0" prefWidth="483.0" text="La aplicación termina cuando se pulse el botón Finalizar.">
          <font>
             <Font name="System Italic" size="15.0" />
@@ -51,5 +51,9 @@
             <Font name="System Italic" size="18.0" />
          </font>
       </Label>
+      <Label layoutX="592.0" layoutY="127.0" prefHeight="27.0" prefWidth="50.0" style="-fx-text-fill: #E28A78;" text="Naranja" />
+      <Label layoutX="592.0" layoutY="163.0" prefHeight="27.0" prefWidth="75.0" style="-fx-text-fill: #E28A78;" text="Naranja pun." />
+      <Label layoutX="676.0" layoutY="168.0" prefHeight="17.0" prefWidth="102.0" text="Preparando café..." />
+      <Label layoutX="676.0" layoutY="132.0" prefHeight="17.0" prefWidth="102.0" text="Descansando" />
    </children>
 </AnchorPane>

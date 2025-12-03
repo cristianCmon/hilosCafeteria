@@ -267,7 +267,10 @@ public class PrincipalController {
                 }
             }
 
+            if (cantidad > 0) {
+
             cafe = cogerPrimerCafeDisponible();
+            }
 
             if (cafe != -1) {
 //                cambiarColor(new Camarero(), "naranja");
@@ -299,26 +302,26 @@ public class PrincipalController {
 
             if (cafe != -1) {
                 // pintar cafe en gridPane
+                cantidad++;
                 imagenes.get(cafe).setVisible(true);
 
 
                 disponible = estaCafeteraLLena();
-                cantidad++;
                 notifyAll();
             }
         }
 
         private boolean estaCafeteraLLena() {
-            boolean estaLLena = true;
+//            boolean estaLLena = true;
 
-            for (ImageView img : imagenes) {
-                if (!img.isVisible()) {
-                    estaLLena = false;
-                    break;
-                }
-            }
+//            for (ImageView img : imagenes) {
+//                if (!img.isVisible()) {
+//                    estaLLena = false;
+//                    break;
+//                }
+//            }
 
-            return estaLLena;
+            return cantidad >= 4;
         }
 
         private int cogerPrimerCafeDisponible() {
