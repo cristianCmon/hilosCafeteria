@@ -15,7 +15,7 @@
 % Permite centrar verticalmente m{}
 \usepackage{array}
 
-\title{\LARGE \textbf{Documentación de Proyecto - Join Cafetería} \\[2ex] \Large Programación de Servicios y Procesos}
+\title{\LARGE \textbf{Documentación de Proyecto - Cafetería Plus} \\[2ex] \Large Programación de Servicios y Procesos}
 \author{\\[20ex]Cristian Fernández}
 \date{\today}
 
@@ -27,19 +27,48 @@
 \newpage
 
 \section{Descripción del problema}
-\noindent \\El docente encargado de impartir el módulo de \textit{Programación de Servicios y Procesos}, Don Roberto Castro Liste,
-ha encargado la realización de una tarea que consiste en crear un programa en \textbf{JavaFX} que simule el funcionamiento de una cafetería,
-creando clases que representen a los clientes y a los camareros de la misma, y utilizar \textbf{Threads} para modelar la interacción entre ellos. \\ \\
+\noindent \\En esta ocasión recuperamos el proyecto anterior en el que simulábamos el funcionamiento de una cafetería mediante distintos hilos de ejecución con objeto de
+expandir su funcionalidad mediante la implementación de una capa extra de complejidad, gracias a la cual seguiremos profundizando en el estudio de la sincronía de procesos. \\
+Los puntos clave que nos permitirán dicha tarea serán la incorporación de los \textbf{métodos synchronized} junto con el uso del \textbf{patrón de diseño Productor/Consumidor}. \\ \\
 El programa debe seguir estas pautas:\\
 \begin{itemize}
-    \item Crear una clase Cliente con los siguientes atributos (nombre, tiempoEspera).
-    \item Crear una clase Camarero con un método \textit{prepararCafe} que acepte como argumento un objeto Cliente y simule el tiempo que lleva prepararle dicho brebaje.
-    \item Crear varios objetos Cliente (con diferentes nombres y tiempos de espera) y varios objetos Camarero en la clase principal.
-    \item Simular la llegada de los clienes como hilos separados.
-    \item Cada cliente debe intentar pedir un café y esperar el tiempo especificado. Los camarero deben preparar los cafés para los clientes en orden de llegada. 
+    \item Crear una clase Barista (Productor).
+    \item Crear dos clases Camarero (Consumidor).
+    \item Crear una clase Cafetera (Búfer Compartido).
+    \item Crear clases Cliente mediante la pulsación del botón \textit{`Dar Paso'}.
+    \item Cada cliente debe intentar pedir un café y esperar el tiempo especificado. Los camareros deben esperar a que haya cafés disponibles y si es así servirlos en orden de
+    llegada de la clientela. El barista debe hacer cafés incansablemente hasta que la cafetera no admita más (búfer lleno).
     Si un cliente se va antes de que su café esté listo, el camarero debe continuar con el siguiente cliente.
-    \item El programa debe continuar ejecutándose hasta que todos los clientes hayan sido atendidos.
+    \item El programa debe continuar ejecutándose hasta que se pulse el botón \textit{`Finalizar'}.
 \end{itemize}
+\newpage
+
+\section{Patrón de diseño Productor/Consumidor}
+\noindent \\El patrón de diseño Productor/Consumidor desacopla los procesos que producen datos de aquellos que los consumen, utilizando un búfer compartido para almacenar 
+datos temporalmente. Este patrón es ideal para aplicaciones con tareas asincrónicas e independientes que se ejecutan a diferentes velocidades, mejorando la
+escalabilidad y el rendimiento al permitir que el productor y el consumidor trabajen en paralelo. \\ \\
+Sus componentes clave son:\\
+\begin{itemize}
+    \item \textbf{Productor}: Es un hilo o proceso que genera datos y los añade a una estructura de datos compartida, como una cola o búfer.
+    \item \textbf{Consumidor}: Es un hilo o proceso que retira los datos del búfer y los procesa.
+    \item \textbf{Búfer Compartido}: Es una estructura de datos (ej. una cola) que actúa como intermediario, almacenando los datos hasta que el consumidor esté listo para procesarlos.
+    \item \textbf{Sincronización}: Mecanismos para controlar el acceso al búfer y asegurar que los productores no añadan datos a un búfer lleno y los consumidores no intenten retirar datos de un búfer vacío.
+\end{itemize}
+\newpage
+
+\section{Nuevas clases}
+\noindent \\A continuación unas capturas de las nuevas clases incorporadas al proyecto.\\\\
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{barista.png}
+    \caption{Clase Barista}
+\end{figure}
+\newpage
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{cafetera.png}
+    \caption{Clase Cafetera}
+\end{figure}
 \newpage
 
 \section{Requisitos funcionales}
@@ -49,6 +78,7 @@ El programa debe seguir estas pautas:\\
     \item[ \textbf{ RF-1}:] Ver una leyenda de colores que informen del estado de los Hilos.
     \item[ \textbf{ RF-2}:] Pulsar un botón que inicie la ejecución del programa.
     \item[ \textbf{ RF-3}:] Mostrar dinámicamente todo el proceso de ejecución.
+    \item[ \textbf{ RF-4}:] Pulsar un botón que finalice la ejecución del programa.
 \end{labeling}
 \newpage
 
@@ -58,7 +88,6 @@ El programa debe seguir estas pautas:\\
     \item[ \textbf{RNF-1}:] El tiempo de respuesta al pulsar el botón Iniciar no debe superar los 2 segundos.
     \item[ \textbf{RNF-2}:] La intefaz gráfica de usuario ha de ser fácilmente entendible.
     \item[ \textbf{RNF-3}:] Cada acción realizada por los hilos debe ser lo suficientemente descriptiva para el usuario.
-    \item[ \textbf{RNF-4}:] La interfaz debe avisar de forma clara que la ejecución de la aplicación ha terminado.
 \end{labeling}
 \newpage
 
@@ -72,6 +101,8 @@ Consultar leyenda colores & El usuario consulta el funcionamiento de los hilos d
 \hline
 Iniciar aplicación & El usuario puede iniciar la aplicación pulsando un botón. \\
 \hline
+Terminar aplicación & El usuario puede finalizar la ejecución pulsando un botón. \\
+\hline
 \end{tabular}
 \newpage
 
@@ -84,6 +115,8 @@ Iniciar aplicación & El usuario puede iniciar la aplicación pulsando un botón
 HU-01 & Usuario & Pulsar un botón & Iniciar la aplicación \\
 \hline
 HU-02 & Usuario & Entender el comportamiento de los hilos & Deducir cómo funciona la concurrencia \\
+\hline
+HU-03 & Usuario & Pulsar un botón & Finalizar la ejecución de la aplicación \\
 \hline
 \end{tabular}
 \newpage
@@ -123,22 +156,23 @@ la integración fluida con el ecosistema Java y herramientas como FXML y Scene B
 \newpage
 
 \section{Interfaz de la aplicación}
-\noindent \\A continuación unas capturas de las diferentes vistas de la interfaz.\\
+\noindent \\A continuación unas capturas de las diferentes vistas de la interfaz.\\\\
 \begin{figure}[hbt!]
     \centering
-    \includegraphics[width=0.8\textwidth]{captura0.png}
+    \includegraphics[width=1\textwidth]{captura0.png}
     \caption{Vista inicial, muestra comportamiento hilos por código de colores}
 \end{figure}
 \newpage
 \begin{figure}[hbt!]
     \centering
-    \includegraphics[width=0.8\textwidth]{captura1.png}
-    \caption{Ejecución del programa}
+    \includegraphics[width=1\textwidth]{captura1.png}
+    \caption{Cafetera cargada y barista/camareros libres}
 \end{figure}
+\noindent \\
 \begin{figure}[hbt!]
     \centering
-    \includegraphics[width=0.8\textwidth]{captura2.png}
-    \caption{Fin de ejecución del programa}
+    \includegraphics[width=1\textwidth]{captura2.png}
+    \caption{Servicio normal con carga de trabajo rutinaria}
 \end{figure}
 
 
